@@ -1,0 +1,9 @@
+# Change Log
+
+## 2026-07-06
+
+- Added a pull simulator in `day-1/index.html`.
+- The pull button gives a random result: Rare, Epic, or Legendary.
+- Pity goes up when the result is not Legendary.
+- If pity reaches 10, the next result is guaranteed Legendary.
+- Added visible stats and pull history so the result is easy to check.

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pity Pull Simulator</title>
+  <style>
+    :root {
+      --bg: #101418;
+      --panel: #1b2229;
+      --panel-soft: #242d35;
+      --text: #f3f6f8;
+      --muted: #b7c0c7;
+      --accent: #38bdf8;
+      --accent-dark: #0ea5e9;
+      --gold: #f5c542;
+      --violet: #a78bfa;
+      --blue: #60a5fa;
+      --border: #33414d;
+      --danger: #fb7185;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(56, 189, 248, 0.2), transparent 32rem),
+        linear-gradient(135deg, #101418 0%, #182029 50%, #121820 100%);
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    main {
+      width: min(960px, 100%);
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    section {
+      background: rgba(27, 34, 41, 0.92);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 22px;
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.35);
+    }
+
+    h1,
+    h2,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 7vw, 4.8rem);
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      font-size: 1.05rem;
+      margin-bottom: 14px;
+    }
+
+    .subtitle,
+    .rule,
+    .history-empty {
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .result {
+      min-height: 180px;
+      margin: 22px 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--panel-soft);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .result-name {
+      display: block;
+      font-size: clamp(2rem, 8vw, 4rem);
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .rarity-rare {
+      color: var(--blue);
+    }
+
+    .rarity-epic {
+      color: var(--violet);
+    }
+
+    .rarity-legendary {
+      color: var(--gold);
+      text-shadow: 0 0 18px rgba(245, 197, 66, 0.45);
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: 0;
+      border-radius: 8px;
+      color: #061018;
+      font-weight: 700;
+      cursor: pointer;
+      min-height: 46px;
+      padding: 0 18px;
+    }
+
+    .pull-button {
+      background: var(--accent);
+      flex: 1 1 180px;
+    }
+
+    .pull-button:hover {
+      background: var(--accent-dark);
+    }
+
+    .reset-button {
+      color: var(--text);
+      background: transparent;
+      border: 1px solid var(--border);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .stat {
+      background: #141a20;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+    }
+
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.78rem;
+      margin-bottom: 6px;
+    }
+
+    .stat strong {
+      font-size: 1.3rem;
+    }
+
+    .rules {
+      display: grid;
+      gap: 10px;
+    }
+
+    .rule {
+      background: #141a20;
+      border-left: 4px solid var(--accent);
+      border-radius: 6px;
+      padding: 12px;
+      margin: 0;
+    }
+
+    .history-list {
+      list-style: none;
+      margin: 14px 0 0;
+      padding: 0;
+      display: grid;
+      gap: 8px;
+      max-height: 300px;
+      overflow: auto;
+    }
+
+    .history-list li {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      background: #141a20;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 12px;
+    }
+
+    .history-list small {
+      color: var(--muted);
+    }
+
+    .warning {
+      color: var(--danger);
+      margin-bottom: 0;
+    }
+
+    @media (max-width: 760px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section aria-labelledby="app-title">
+      <h1 id="app-title">Pull Simulator</h1>
+      <p class="subtitle">Click pull to get a random result. Pity increases when you miss Legendary and resets when you hit it.</p>
+
+      <div class="result" id="result" aria-live="polite">
+        <div>
+          <span class="result-name">Ready?</span>
+          <span class="subtitle">Your first pull is waiting.</span>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button class="pull-button" id="pullButton" type="button">Pull</button>
+        <button class="reset-button" id="resetButton" type="button">Reset</button>
+      </div>
+
+      <div class="stats" aria-label="Pull stats">
+        <div class="stat">
+          <span>Total pulls</span>
+          <strong id="totalPulls">0</strong>
+        </div>
+        <div class="stat">
+          <span>Pity</span>
+          <strong id="pityCount">0 / 10</strong>
+        </div>
+        <div class="stat">
+          <span>Legendary</span>
+          <strong id="legendaryCount">0</strong>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="rules-title">
+      <h2 id="rules-title">Rules</h2>
+      <div class="rules">
+        <p class="rule">Rare chance: 70%</p>
+        <p class="rule">Epic chance: 25%</p>
+        <p class="rule">Legendary chance: 5%</p>
+        <p class="rule">Pity rule: if pull 10 has no Legendary yet, it becomes Legendary.</p>
+      </div>
+
+      <h2>History</h2>
+      <p class="history-empty" id="historyEmpty">No pulls yet.</p>
+      <ol class="history-list" id="historyList"></ol>
+      <p class="warning">This is only a simulator, not real gambling.</p>
+    </section>
+  </main>
+
+  <script>
+    const MAX_PITY = 10;
+    const rarityTable = [
+      { name: 'Rare', chance: 70, className: 'rarity-rare' },
+      { name: 'Epic', chance: 25, className: 'rarity-epic' },
+      { name: 'Legendary', chance: 5, className: 'rarity-legendary' }
+    ];
+
+    const state = {
+      totalPulls: 0,
+      pity: 0,
+      legendaryCount: 0,
+      history: []
+    };
+
+    const result = document.querySelector('#result');
+    const totalPulls = document.querySelector('#totalPulls');
+    const pityCount = document.querySelector('#pityCount');
+    const legendaryCount = document.querySelector('#legendaryCount');
+    const historyList = document.querySelector('#historyList');
+    const historyEmpty = document.querySelector('#historyEmpty');
+    const pullButton = document.querySelector('#pullButton');
+    const resetButton = document.querySelector('#resetButton');
+
+    function getRandomRarity() {
+      const pityPullTriggered = state.pity + 1 >= MAX_PITY;
+
+      if (pityPullTriggered) {
+        return { ...rarityTable[2], pityTriggered: true };
+      }
+
+      // Roll from 1 to 100 so the percentage rules are easy to read.
+      const roll = Math.floor(Math.random() * 100) + 1;
+
+      if (roll <= 70) {
+        return rarityTable[0];
+      }
+
+      if (roll <= 95) {
+        return rarityTable[1];
+      }
+
+      return rarityTable[2];
+    }
+
+    function pull() {
+      const rarity = getRandomRarity();
+      const isLegendary = rarity.name === 'Legendary';
+
+      state.totalPulls += 1;
+      state.pity = isLegendary ? 0 : state.pity + 1;
+      state.legendaryCount += isLegendary ? 1 : 0;
+      state.history.unshift({
+        number: state.totalPulls,
+        rarity: rarity.name,
+        className: rarity.className,
+        pityTriggered: Boolean(rarity.pityTriggered)
+      });
+
+      render(rarity);
+    }
+
+    function reset() {
+      state.totalPulls = 0;
+      state.pity = 0;
+      state.legendaryCount = 0;
+      state.history = [];
+      render();
+    }
+
+    function render(currentRarity) {
+      totalPulls.textContent = state.totalPulls;
+      pityCount.textContent = `${state.pity} / ${MAX_PITY}`;
+      legendaryCount.textContent = state.legendaryCount;
+
+      if (currentRarity) {
+        const note = currentRarity.pityTriggered
+          ? 'Guaranteed by pity.'
+          : 'Random pull result.';
+
+        result.innerHTML = `
+          <div>
+            <span class="result-name ${currentRarity.className}">${currentRarity.name}</span>
+            <span class="subtitle">${note}</span>
+          </div>
+        `;
+      } else {
+        result.innerHTML = `
+          <div>
+            <span class="result-name">Ready?</span>
+            <span class="subtitle">Your first pull is waiting.</span>
+          </div>
+        `;
+      }
+
+      historyEmpty.hidden = state.history.length > 0;
+      historyList.innerHTML = state.history
+        .slice(0, 15)
+        .map((item) => `
+          <li>
+            <span class="${item.className}">${item.rarity}</span>
+            <small>#${item.number}${item.pityTriggered ? ' pity' : ''}</small>
+          </li>
+        `)
+        .join('');
+    }
+
+    pullButton.addEventListener('click', pull);
+    resetButton.addEventListener('click', reset);
+  </script>
+</body>
+</html>
