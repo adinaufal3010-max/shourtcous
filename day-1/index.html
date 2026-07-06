@@ -16,6 +16,7 @@
       --rare: #60a5fa;
       --epic: #c084fc;
       --legendary: #f6c453;
+      --featured: #fb7185;
       --success: #34d399;
       --danger: #fb7185;
       --accent: #2dd4bf;
@@ -173,6 +174,13 @@
       animation: pulseAura 2.8s ease-in-out infinite;
     }
 
+    .focus-result.featured-glow {
+      border-color: rgba(251, 113, 133, 0.7);
+      box-shadow:
+        inset 0 0 48px rgba(251, 113, 133, 0.16),
+        0 0 42px rgba(251, 113, 133, 0.22);
+    }
+
     .result-content {
       position: relative;
       z-index: 1;
@@ -182,29 +190,107 @@
       padding: 28px;
     }
 
-    .shard {
-      width: 94px;
-      height: 118px;
+    .reward-art {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      display: grid;
+      place-items: center;
+    }
+
+    .reward-art::before,
+    .reward-art::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      pointer-events: none;
+    }
+
+    .reward-art::before {
+      width: 142px;
+      height: 142px;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      animation: rotateRing 7s linear infinite;
+    }
+
+    .reward-art::after {
+      width: 96px;
+      height: 96px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.34), transparent 64%);
+      filter: blur(8px);
+    }
+
+    .reward-icon {
+      position: relative;
+      z-index: 1;
+      width: 86px;
+      height: 108px;
       border-radius: 8px;
-      clip-path: polygon(50% 0, 100% 28%, 86% 100%, 14% 100%, 0 28%);
+      clip-path: polygon(50% 0, 100% 23%, 88% 100%, 12% 100%, 0 23%);
       background:
-        linear-gradient(135deg, rgba(255, 255, 255, 0.8), transparent 34%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.88), transparent 30%),
         linear-gradient(160deg, var(--rare), #1d4ed8);
-      box-shadow: 0 0 30px rgba(96, 165, 250, 0.35);
+      box-shadow: 0 0 34px rgba(96, 165, 250, 0.4);
+      transform: perspective(420px) rotateY(-12deg);
     }
 
-    .shard.epic {
+    .reward-icon::before {
+      content: "";
+      position: absolute;
+      inset: 16px 24px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.34);
+    }
+
+    .reward-icon::after {
+      content: "";
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 18px;
+      height: 9px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    .reward-icon.epic {
       background:
-        linear-gradient(135deg, rgba(255, 255, 255, 0.8), transparent 34%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.88), transparent 30%),
         linear-gradient(160deg, var(--epic), #7e22ce);
-      box-shadow: 0 0 34px rgba(192, 132, 252, 0.42);
+      box-shadow: 0 0 40px rgba(192, 132, 252, 0.48);
     }
 
-    .shard.legendary {
+    .reward-icon.legendary {
       background:
-        linear-gradient(135deg, rgba(255, 255, 255, 0.9), transparent 34%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.92), transparent 30%),
         linear-gradient(160deg, var(--legendary), #b45309);
-      box-shadow: 0 0 42px rgba(246, 196, 83, 0.58);
+      box-shadow: 0 0 52px rgba(246, 196, 83, 0.66);
+    }
+
+    .reward-icon.featured {
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.94), transparent 28%),
+        linear-gradient(160deg, #fb7185, #f6c453 48%, #8b5cf6);
+      box-shadow: 0 0 60px rgba(251, 113, 133, 0.68);
+    }
+
+    .reward-icon.featured::before {
+      inset: 22px 18px;
+      border-radius: 8px;
+      background:
+        linear-gradient(45deg, transparent 42%, rgba(255, 255, 255, 0.72) 44%, rgba(255, 255, 255, 0.72) 56%, transparent 58%),
+        linear-gradient(-45deg, transparent 42%, rgba(255, 255, 255, 0.62) 44%, rgba(255, 255, 255, 0.62) 56%, transparent 58%);
+    }
+
+    .sparkles {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 16% 28%, rgba(255, 255, 255, 0.9) 0 2px, transparent 3px),
+        radial-gradient(circle at 82% 22%, rgba(255, 255, 255, 0.78) 0 2px, transparent 3px),
+        radial-gradient(circle at 78% 78%, rgba(255, 255, 255, 0.72) 0 2px, transparent 3px),
+        radial-gradient(circle at 24% 72%, rgba(255, 255, 255, 0.72) 0 2px, transparent 3px);
+      animation: twinkle 1.6s ease-in-out infinite;
     }
 
     .result-title {
@@ -225,6 +311,11 @@
     .rarity-legendary {
       color: var(--legendary);
       text-shadow: 0 0 22px rgba(246, 196, 83, 0.45);
+    }
+
+    .rarity-featured {
+      color: var(--featured);
+      text-shadow: 0 0 22px rgba(251, 113, 133, 0.5);
     }
 
     .pop {
@@ -292,9 +383,13 @@
       transition: width 220ms ease;
     }
 
+    .meter-fill.guarantee-fill {
+      background: linear-gradient(90deg, var(--featured), var(--legendary));
+    }
+
     .stats {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
     }
 
     .stat {
@@ -363,6 +458,11 @@
 
     .mini-gem.legendary {
       background: var(--legendary);
+    }
+
+    .mini-gem.featured {
+      background: linear-gradient(160deg, var(--featured), var(--legendary));
+      box-shadow: 0 0 18px rgba(251, 113, 133, 0.5);
     }
 
     .mini-card span {
@@ -443,6 +543,29 @@
       }
     }
 
+    @keyframes rotateRing {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes twinkle {
+      0%,
+      100% {
+        opacity: 0.38;
+        transform: scale(0.96);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.04);
+      }
+    }
+
     @media (max-width: 860px) {
       body {
         padding: 16px;
@@ -498,7 +621,10 @@
         <div class="stage">
           <div class="focus-result" id="result" aria-live="polite">
             <div class="result-content">
-              <div class="shard" aria-hidden="true"></div>
+              <div class="reward-art" aria-hidden="true">
+                <div class="sparkles"></div>
+                <div class="reward-icon"></div>
+              </div>
               <div>
                 <span class="result-title">Ready</span>
                 <span class="subtitle">Tekan Pull untuk mulai.</span>
@@ -524,6 +650,16 @@
             </div>
           </div>
 
+          <div class="pity-box">
+            <div class="pity-row">
+              <strong>Featured Guarantee</strong>
+              <span class="meta" id="guaranteeCount">0 / 120</span>
+            </div>
+            <div class="meter" aria-hidden="true">
+              <div class="meter-fill guarantee-fill" id="guaranteeFill"></div>
+            </div>
+          </div>
+
           <div class="stats" aria-label="Pull stats">
             <div class="stat">
               <span>Total pulls</span>
@@ -532,6 +668,10 @@
             <div class="stat">
               <span>Legendary</span>
               <strong id="legendaryCount">0</strong>
+            </div>
+            <div class="stat">
+              <span>Featured</span>
+              <strong id="featuredCount">0</strong>
             </div>
             <div class="stat">
               <span>Last batch</span>
@@ -556,6 +696,7 @@
             <p class="rule">Epic: 25%</p>
             <p class="rule">Legendary: 5%</p>
             <p class="rule">Kalau 10 pull belum dapat Legendary, pull ke-10 otomatis Legendary.</p>
+            <p class="rule">Kalau 120 pull belum dapat Featured, pull ke-120 otomatis Featured.</p>
           </div>
         </section>
 
@@ -570,16 +711,26 @@
 
   <script>
     const MAX_PITY = 10;
+    const MAX_GUARANTEE = 120;
     const rarityTable = [
       { name: 'Rare', chance: 70, className: 'rarity-rare', shard: '', gem: '' },
       { name: 'Epic', chance: 25, className: 'rarity-epic', shard: 'epic', gem: 'epic' },
       { name: 'Legendary', chance: 5, className: 'rarity-legendary', shard: 'legendary', gem: 'legendary' }
     ];
+    const featuredReward = {
+      name: 'Featured',
+      chance: 0,
+      className: 'rarity-featured',
+      shard: 'featured',
+      gem: 'featured'
+    };
 
     const state = {
       totalPulls: 0,
       pity: 0,
+      guarantee: 0,
       legendaryCount: 0,
+      featuredCount: 0,
       lastBatch: [],
       history: []
     };
@@ -588,7 +739,10 @@
     const totalPulls = document.querySelector('#totalPulls');
     const pityCount = document.querySelector('#pityCount');
     const pityFill = document.querySelector('#pityFill');
+    const guaranteeCount = document.querySelector('#guaranteeCount');
+    const guaranteeFill = document.querySelector('#guaranteeFill');
     const legendaryCount = document.querySelector('#legendaryCount');
+    const featuredCount = document.querySelector('#featuredCount');
     const lastBatchCount = document.querySelector('#lastBatchCount');
     const batchGrid = document.querySelector('#batchGrid');
     const historyList = document.querySelector('#historyList');
@@ -598,6 +752,12 @@
     const resetButton = document.querySelector('#resetButton');
 
     function getRandomRarity() {
+      const featuredGuaranteed = state.guarantee + 1 >= MAX_GUARANTEE;
+
+      if (featuredGuaranteed) {
+        return { ...featuredReward, featuredTriggered: true };
+      }
+
       const pityPullTriggered = state.pity + 1 >= MAX_PITY;
 
       if (pityPullTriggered) {
@@ -620,10 +780,13 @@
 
     function createPullItem(rarity) {
       const isLegendary = rarity.name === 'Legendary';
+      const isFeatured = rarity.name === 'Featured';
 
       state.totalPulls += 1;
-      state.pity = isLegendary ? 0 : state.pity + 1;
+      state.pity = isLegendary || isFeatured ? 0 : state.pity + 1;
+      state.guarantee = isFeatured ? 0 : state.guarantee + 1;
       state.legendaryCount += isLegendary ? 1 : 0;
+      state.featuredCount += isFeatured ? 1 : 0;
 
       return {
         number: state.totalPulls,
@@ -631,7 +794,8 @@
         className: rarity.className,
         shard: rarity.shard,
         gem: rarity.gem,
-        pityTriggered: Boolean(rarity.pityTriggered)
+        pityTriggered: Boolean(rarity.pityTriggered),
+        featuredTriggered: Boolean(rarity.featuredTriggered)
       };
     }
 
@@ -650,7 +814,9 @@
     function reset() {
       state.totalPulls = 0;
       state.pity = 0;
+      state.guarantee = 0;
       state.legendaryCount = 0;
+      state.featuredCount = 0;
       state.lastBatch = [];
       state.history = [];
       render();
@@ -660,7 +826,10 @@
       totalPulls.textContent = state.totalPulls;
       pityCount.textContent = `${state.pity} / ${MAX_PITY}`;
       pityFill.style.width = `${(state.pity / MAX_PITY) * 100}%`;
+      guaranteeCount.textContent = `${state.guarantee} / ${MAX_GUARANTEE}`;
+      guaranteeFill.style.width = `${(state.guarantee / MAX_GUARANTEE) * 100}%`;
       legendaryCount.textContent = state.legendaryCount;
+      featuredCount.textContent = state.featuredCount;
       lastBatchCount.textContent = state.lastBatch.length;
 
       renderMainResult(currentItem);
@@ -670,9 +839,13 @@
 
     function renderMainResult(currentItem) {
       if (!currentItem) {
+        result.classList.remove('featured-glow');
         result.innerHTML = `
           <div class="result-content">
-            <div class="shard" aria-hidden="true"></div>
+            <div class="reward-art" aria-hidden="true">
+              <div class="sparkles"></div>
+              <div class="reward-icon"></div>
+            </div>
             <div>
               <span class="result-title">Ready</span>
               <span class="subtitle">Tekan Pull untuk mulai.</span>
@@ -684,11 +857,18 @@
 
       const note = currentItem.pityTriggered
         ? 'Guaranteed by pity.'
+        : currentItem.featuredTriggered
+          ? 'Guaranteed at 120 pulls.'
         : `Pull #${currentItem.number}`;
+
+      result.classList.toggle('featured-glow', Boolean(currentItem.featuredTriggered));
 
       result.innerHTML = `
         <div class="result-content pop">
-          <div class="shard ${currentItem.shard}" aria-hidden="true"></div>
+          <div class="reward-art" aria-hidden="true">
+            <div class="sparkles"></div>
+            <div class="reward-icon ${currentItem.shard}"></div>
+          </div>
           <div>
             <span class="result-title ${currentItem.className}">${currentItem.rarity}</span>
             <span class="subtitle">${note}</span>
@@ -720,7 +900,7 @@
         .map((item) => `
           <li>
             <span class="${item.className}">${item.rarity}</span>
-            <small>#${item.number}${item.pityTriggered ? ' pity' : ''}</small>
+            <small>#${item.number}${item.pityTriggered ? ' pity' : ''}${item.featuredTriggered ? ' 120 guarantee' : ''}</small>
           </li>
         `)
         .join('');

@@ -10,3 +10,5 @@
 - Made the simulator more modern and interactive.
 - Added Pull 1x and Pull 10x buttons.
 - Added latest result cards, a pity progress bar, and a cleaner layout.
+- Improved the reward image with aura, ring, and sparkle effects.
+- Added a separate Featured Guarantee counter that gives Featured at 120 pulls.
