@@ -105,6 +105,7 @@
     .meta,
     .empty-state,
     .rule,
+    .tech-note,
     .tiny {
       color: var(--muted);
       line-height: 1.5;
@@ -223,63 +224,89 @@
     .reward-icon {
       position: relative;
       z-index: 1;
-      width: 86px;
-      height: 108px;
+      width: 104px;
+      height: 130px;
       border-radius: 8px;
-      clip-path: polygon(50% 0, 100% 23%, 88% 100%, 12% 100%, 0 23%);
       background:
-        linear-gradient(135deg, rgba(255, 255, 255, 0.88), transparent 30%),
-        linear-gradient(160deg, var(--rare), #1d4ed8);
-      box-shadow: 0 0 34px rgba(96, 165, 250, 0.4);
-      transform: perspective(420px) rotateY(-12deg);
+        linear-gradient(135deg, rgba(255, 255, 255, 0.28), transparent 32%),
+        linear-gradient(160deg, #27384f, #111827 62%);
+      box-shadow:
+        0 0 34px rgba(96, 165, 250, 0.38),
+        inset 0 -18px 28px rgba(0, 0, 0, 0.32);
+      transform: perspective(420px) rotateY(-10deg);
     }
 
     .reward-icon::before {
       content: "";
       position: absolute;
-      inset: 16px 24px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.34);
+      left: 23px;
+      top: 7px;
+      width: 58px;
+      height: 58px;
+      border-radius: 46% 46% 42% 42%;
+      background:
+        linear-gradient(90deg, transparent 0 16%, rgba(45, 212, 191, 0.92) 17% 83%, transparent 84%),
+        radial-gradient(circle at 50% 25%, rgba(255, 255, 255, 0.85), transparent 10px),
+        linear-gradient(150deg, #e2e8f0, #64748b 54%, #1e293b);
+      border: 2px solid rgba(248, 250, 252, 0.42);
+      box-shadow: 0 0 20px rgba(45, 212, 191, 0.32);
     }
 
     .reward-icon::after {
       content: "";
       position: absolute;
-      left: 18px;
-      right: 18px;
-      bottom: 18px;
-      height: 9px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.3);
+      left: 12px;
+      right: 12px;
+      bottom: 7px;
+      height: 70px;
+      clip-path: polygon(50% 0, 94% 28%, 84% 100%, 16% 100%, 6% 28%);
+      background:
+        linear-gradient(45deg, transparent 41%, rgba(255, 255, 255, 0.78) 43%, rgba(255, 255, 255, 0.78) 57%, transparent 59%) center 23px / 32px 32px no-repeat,
+        linear-gradient(-45deg, transparent 41%, rgba(255, 255, 255, 0.64) 43%, rgba(255, 255, 255, 0.64) 57%, transparent 59%) center 23px / 32px 32px no-repeat,
+        linear-gradient(160deg, var(--rare), #1d4ed8 62%, #0f172a);
+      box-shadow: inset 0 0 18px rgba(255, 255, 255, 0.18);
     }
 
     .reward-icon.epic {
       background:
-        linear-gradient(135deg, rgba(255, 255, 255, 0.88), transparent 30%),
-        linear-gradient(160deg, var(--epic), #7e22ce);
+        linear-gradient(135deg, rgba(255, 255, 255, 0.3), transparent 32%),
+        linear-gradient(160deg, #3b244f, #191126 62%);
       box-shadow: 0 0 40px rgba(192, 132, 252, 0.48);
+    }
+
+    .reward-icon.epic::after {
+      background:
+        linear-gradient(45deg, transparent 41%, rgba(255, 255, 255, 0.78) 43%, rgba(255, 255, 255, 0.78) 57%, transparent 59%) center 23px / 32px 32px no-repeat,
+        linear-gradient(-45deg, transparent 41%, rgba(255, 255, 255, 0.64) 43%, rgba(255, 255, 255, 0.64) 57%, transparent 59%) center 23px / 32px 32px no-repeat,
+        linear-gradient(160deg, var(--epic), #7e22ce 62%, #0f172a);
     }
 
     .reward-icon.legendary {
       background:
-        linear-gradient(135deg, rgba(255, 255, 255, 0.92), transparent 30%),
-        linear-gradient(160deg, var(--legendary), #b45309);
+        linear-gradient(135deg, rgba(255, 255, 255, 0.34), transparent 32%),
+        linear-gradient(160deg, #4a3414, #1f1607 62%);
       box-shadow: 0 0 52px rgba(246, 196, 83, 0.66);
+    }
+
+    .reward-icon.legendary::after {
+      background:
+        linear-gradient(45deg, transparent 41%, rgba(255, 255, 255, 0.82) 43%, rgba(255, 255, 255, 0.82) 57%, transparent 59%) center 23px / 32px 32px no-repeat,
+        linear-gradient(-45deg, transparent 41%, rgba(255, 255, 255, 0.68) 43%, rgba(255, 255, 255, 0.68) 57%, transparent 59%) center 23px / 32px 32px no-repeat,
+        linear-gradient(160deg, var(--legendary), #b45309 62%, #0f172a);
     }
 
     .reward-icon.featured {
       background:
-        linear-gradient(135deg, rgba(255, 255, 255, 0.94), transparent 28%),
-        linear-gradient(160deg, #fb7185, #f6c453 48%, #8b5cf6);
+        linear-gradient(135deg, rgba(255, 255, 255, 0.36), transparent 30%),
+        linear-gradient(160deg, #542131, #24111f 62%);
       box-shadow: 0 0 60px rgba(251, 113, 133, 0.68);
     }
 
-    .reward-icon.featured::before {
-      inset: 22px 18px;
-      border-radius: 8px;
+    .reward-icon.featured::after {
       background:
-        linear-gradient(45deg, transparent 42%, rgba(255, 255, 255, 0.72) 44%, rgba(255, 255, 255, 0.72) 56%, transparent 58%),
-        linear-gradient(-45deg, transparent 42%, rgba(255, 255, 255, 0.62) 44%, rgba(255, 255, 255, 0.62) 56%, transparent 58%);
+        linear-gradient(45deg, transparent 41%, rgba(255, 255, 255, 0.86) 43%, rgba(255, 255, 255, 0.86) 57%, transparent 59%) center 23px / 36px 36px no-repeat,
+        linear-gradient(-45deg, transparent 41%, rgba(255, 255, 255, 0.7) 43%, rgba(255, 255, 255, 0.7) 57%, transparent 59%) center 23px / 36px 36px no-repeat,
+        linear-gradient(160deg, #fb7185, #f6c453 48%, #8b5cf6 78%);
     }
 
     .sparkles {
@@ -475,6 +502,53 @@
       gap: 10px;
     }
 
+    .tech-stack {
+      display: grid;
+      gap: 10px;
+    }
+
+    .tech-card {
+      display: grid;
+      gap: 8px;
+      padding: 12px;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      border-radius: 8px;
+      background: rgba(13, 17, 23, 0.45);
+    }
+
+    .tech-card strong {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .tech-badge {
+      padding: 4px 8px;
+      border-radius: 999px;
+      color: #06201d;
+      background: var(--accent);
+      font-size: 0.72rem;
+      font-weight: 900;
+    }
+
+    .tech-card pre {
+      overflow: auto;
+      margin: 0;
+      padding: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      border-radius: 8px;
+      color: #dbeafe;
+      background: rgba(2, 6, 23, 0.62);
+      font-size: 0.78rem;
+      line-height: 1.45;
+    }
+
+    .tech-note {
+      margin: 0;
+      font-size: 0.86rem;
+    }
+
     .rule {
       margin: 0;
       padding: 12px;
@@ -610,7 +684,7 @@
         <div class="brand-mark" aria-hidden="true"></div>
         <div>
           <h1>Pity Pull Simulator</h1>
-          <p class="subtitle">Tarik hadiah random, lihat pity, dan cek hasil terbaru secara langsung.</p>
+          <p class="subtitle">Tarik hadiah random, lihat pity, dan cek hasil terbaru dengan konsep logic C++ dan Java.</p>
         </div>
       </div>
       <p class="tiny danger">Simulator saja, bukan gambling sungguhan.</p>
@@ -697,6 +771,31 @@
             <p class="rule">Legendary: 5%</p>
             <p class="rule">Kalau 10 pull belum dapat Legendary, pull ke-10 otomatis Legendary.</p>
             <p class="rule">Kalau 120 pull belum dapat Featured, pull ke-120 otomatis Featured.</p>
+          </div>
+        </section>
+
+        <section class="panel" aria-labelledby="tech-title">
+          <h2 id="tech-title">Code Detail</h2>
+          <div class="tech-stack">
+            <article class="tech-card">
+              <strong>C++ Core <span class="tech-badge">RNG</span></strong>
+              <p class="tech-note">C++ cocok untuk simulasi cepat: random roll, pity counter, dan guarantee check.</p>
+              <pre><code>int roll = rand() % 100 + 1;
+if (guarantee >= 119) return FEATURED;
+if (pity >= 9) return LEGENDARY;
+return roll <= 70 ? RARE :
+       roll <= 95 ? EPIC : LEGENDARY;</code></pre>
+            </article>
+
+            <article class="tech-card">
+              <strong>Java Layer <span class="tech-badge">OOP</span></strong>
+              <p class="tech-note">Java cocok untuk struktur reward, history, dan service yang mengatur hasil pull.</p>
+              <pre><code>class Reward {
+  String name;
+  int pullNumber;
+  boolean guaranteed;
+}</code></pre>
+            </article>
           </div>
         </section>
 
