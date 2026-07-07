@@ -105,7 +105,6 @@
     .meta,
     .empty-state,
     .rule,
-    .tech-note,
     .tiny {
       color: var(--muted);
       line-height: 1.5;
@@ -502,53 +501,6 @@
       gap: 10px;
     }
 
-    .tech-stack {
-      display: grid;
-      gap: 10px;
-    }
-
-    .tech-card {
-      display: grid;
-      gap: 8px;
-      padding: 12px;
-      border: 1px solid rgba(148, 163, 184, 0.18);
-      border-radius: 8px;
-      background: rgba(13, 17, 23, 0.45);
-    }
-
-    .tech-card strong {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .tech-badge {
-      padding: 4px 8px;
-      border-radius: 999px;
-      color: #06201d;
-      background: var(--accent);
-      font-size: 0.72rem;
-      font-weight: 900;
-    }
-
-    .tech-card pre {
-      overflow: auto;
-      margin: 0;
-      padding: 10px;
-      border: 1px solid rgba(148, 163, 184, 0.16);
-      border-radius: 8px;
-      color: #dbeafe;
-      background: rgba(2, 6, 23, 0.62);
-      font-size: 0.78rem;
-      line-height: 1.45;
-    }
-
-    .tech-note {
-      margin: 0;
-      font-size: 0.86rem;
-    }
-
     .rule {
       margin: 0;
       padding: 12px;
@@ -684,7 +636,7 @@
         <div class="brand-mark" aria-hidden="true"></div>
         <div>
           <h1>Pity Pull Simulator</h1>
-          <p class="subtitle">Tarik hadiah random, lihat pity, dan cek hasil terbaru dengan konsep logic C++ dan Java.</p>
+          <p class="subtitle">Tarik hadiah random, lihat pity, dan cek hasil terbaru secara langsung.</p>
         </div>
       </div>
       <p class="tiny danger">Simulator saja, bukan gambling sungguhan.</p>
@@ -771,31 +723,6 @@
             <p class="rule">Legendary: 5%</p>
             <p class="rule">Kalau 10 pull belum dapat Legendary, pull ke-10 otomatis Legendary.</p>
             <p class="rule">Kalau 120 pull belum dapat Featured, pull ke-120 otomatis Featured.</p>
-          </div>
-        </section>
-
-        <section class="panel" aria-labelledby="tech-title">
-          <h2 id="tech-title">Code Detail</h2>
-          <div class="tech-stack">
-            <article class="tech-card">
-              <strong>C++ Core <span class="tech-badge">RNG</span></strong>
-              <p class="tech-note">C++ cocok untuk simulasi cepat: random roll, pity counter, dan guarantee check.</p>
-              <pre><code>int roll = rand() % 100 + 1;
-if (guarantee >= 119) return FEATURED;
-if (pity >= 9) return LEGENDARY;
-return roll <= 70 ? RARE :
-       roll <= 95 ? EPIC : LEGENDARY;</code></pre>
-            </article>
-
-            <article class="tech-card">
-              <strong>Java Layer <span class="tech-badge">OOP</span></strong>
-              <p class="tech-note">Java cocok untuk struktur reward, history, dan service yang mengatur hasil pull.</p>
-              <pre><code>class Reward {
-  String name;
-  int pullNumber;
-  boolean guaranteed;
-}</code></pre>
-            </article>
           </div>
         </section>
 
